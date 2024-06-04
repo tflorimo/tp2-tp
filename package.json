@@ -1,0 +1,23 @@
+{
+  "name": "tp2",
+  "version": "1.0.0",
+  "description": "## Inicializar repositorio de git",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon --watch index.js",
+    "dev": "nodemon --watch index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tflorimo/tp2-tp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tflorimo/tp2-tp/issues"
+  },
+  "homepage": "https://github.com/tflorimo/tp2-tp#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

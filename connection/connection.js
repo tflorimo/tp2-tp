@@ -8,14 +8,19 @@ import {
     DB_PORT
 } from "../config/config.js";
 
-const connection = new Sequelize({
-    dialect: 'mysql',
-    database: DB_NAME,
-    username: DB_USER,
-    password:  DB_PASSWORD,
+/**
+ * En algunos casos, DB_USER no es interpretado, por ende lo hardcodeamos
+ */
+const connection = new Sequelize(DB_NAME, "root", DB_PASSWORD, {
     host: DB_HOST,
+    dialect: "mysql",
     port: DB_PORT,
-});
+    define: {
+        freezeTableName: true,
+        timestamps: true,
+        underscored: true
+    }
+})
 
 try {
     await connection.authenticate();

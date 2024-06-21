@@ -4,7 +4,7 @@ import UserController from "../controllers/UserController.js";
 const UserController = new UserController();
 const UserRoutes = Router();
 
-// UserRoutes.post("/login", UserController.login);
+UserRoutes.post("/login", UserController.login);
 
 
 export default UserRoutes;

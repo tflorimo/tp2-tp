@@ -3,6 +3,8 @@ import Role from './Role.js';
 import Supplier from './Supplier.js';
 import Type from './Type.js';
 import User from "./User.js";
+import Price from "./Price.js";
+import Stock from "./Stock.js";
 
 Role.hasMany(User, {foreignKey: "role_id"});
 User.belongsTo(Role, {foreignKey: "role_id"});

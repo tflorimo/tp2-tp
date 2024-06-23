@@ -47,8 +47,34 @@ User.init(
         }
     },
     {
+        /**
+         * Si el usuario es sudo,
+         * enviamos todo
+         * 
+         * Si el usuario es admin,
+         * ocultamos la clave
+         * 
+         * Caso contrario, solo enviaremos pocos datos
+         */
         sequelize: connection,
-        modelName: "User"
+        modelName: "User",
+        defaultScope: {
+            attributes: {
+                exclude: ["password", "role_id"]
+            }
+        },
+        scopes: {
+            admin: {
+                attributes: {
+                    exclude: ["password"]
+                }
+            },
+            sudo: {
+                attributes: {
+                    exclude: []
+                }
+            }
+        }
     }
 );
 

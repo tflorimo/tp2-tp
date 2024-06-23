@@ -19,7 +19,17 @@ Role.init(
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: true
-        }
+        },
+        admin: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        },
+        sudo: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        },
     },
     {
         sequelize: connection,

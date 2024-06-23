@@ -10,7 +10,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(morgan("tiny"));
 app.use(cookieParser());
-// app.use(routes);
+app.use(routes);
 
 // await connection.sync({
 //     force: false

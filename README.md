@@ -36,6 +36,7 @@ Todos los modelos deben tener underscored: true (para seguir una convención de 
 - id - PRIMARY KEY
 - name	
 - is_active
+- admin
 
 # Product
 - id - PRIMARY KEY

@@ -8,9 +8,9 @@ class UserController {
 
         try {
             // para usuario tipo "admin"
-            // const result = await User.scope("admin").findAll({
+            const result = await User.scope("admin").findAll({
             // para usuario tipo "superadmin"
-            const result = await User.scope("sudo").findAll({
+            // const result = await User.scope("sudo").findAll({
             // por defecto
             // const result = await User.findAll({
                 include: {

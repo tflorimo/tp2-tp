@@ -8,6 +8,7 @@ class StockController {
      * si salta el limite, enviar aviso
      */
 
+    
 }
 
 export default StockController;

@@ -15,10 +15,10 @@ Product.belongsTo(Supplier, {foreignKey: "supplier_id"});
 Type.hasMany(Product, {foreignKey: "type_id"});
 Product.belongsTo(Type, {foreignKey: "type_id"});
 
-Price.hasMany(Product, {foreignKey: "product_id"});
-Product.belongsTo(Price, {foreignKey: "product_id"});
+Product.hasOne(Price, {foreignKey: "product_id"});
+Price.belongsTo(Product, {foreignKey: "product_id"});
 
-Stock.hasMany(Product, {foreignKey: "product_id"});
-Product.belongsTo(Stock, {foreignKey: "product_id"});
+Product.hasOne(Stock, {foreignKey: "product_id"});
+Stock.belongsTo(Product, {foreignKey: "product_id"});
 
 export {Role, User, Type, Product, Supplier, Price, Stock};

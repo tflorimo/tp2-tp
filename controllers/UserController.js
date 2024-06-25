@@ -1,18 +1,12 @@
 import { Op } from "sequelize";
 import { Role, User } from "../models/index.js";
+import { genToken, verifyToken } from "../utils/token.js";
 
 class UserController {
     getAllUsers = async (req, res) => {
-
         // Validar tipo de usuario para scope
-
         try {
-            // para usuario tipo "admin"
-            const result = await User.scope("admin").findAll({
-            // para usuario tipo "superadmin"
-            // const result = await User.scope("sudo").findAll({
-            // por defecto
-            // const result = await User.findAll({
+            const result = await User.scope("sudo").findAll({
                 include: {
                     model: Role,
                     attributes: ["name"]
@@ -25,22 +19,14 @@ class UserController {
     }
 
     getUserById = async (req, res) => {
-        
-        // Validar tipo de usuario para scope
-
         try {
             const { id } = req.params;
-            // para usuario tipo "admin"
-            // const result = await User.scope("admin").findByPk(id,{});
-            //para usuario tipo "superadmin"
-            const result = await User.scope("sudo").findByPk(id,{
+            const result = await User.scope("admin").findByPk(id,{
                 include:{
                     model: Role,
                     attributes: ["name"]
                 }
             });
-            // por defecto
-            // const result = await User.findByPk(id, {});
             res.status(200).send({success: true, message: result});
         } catch (error) {
             res.status(400).send({success: false, message: error});
@@ -73,7 +59,7 @@ class UserController {
     updateUser = async (req, res) => {
         try {
             const { id } = req.params;
-            const { first_name, last_name, email, password, role_id, is_active} = req.body;
+            const { first_name, last_name, email, password, role_id, is_active } = req.body;
 
             /**
              * @see "Role.js - updateRole"
@@ -88,6 +74,9 @@ class UserController {
             if(role_id !== undefined) campos.role_id = role_id;
             if(is_active !== undefined) campos.is_active = is_active;
         
+            if(Object.keys(campos).length === 0){
+                throw new Error("No se enviaron datos para actualizar");
+            }
 
             const result = await User.update(campos,
                 {
@@ -96,7 +85,14 @@ class UserController {
                     },
                 }
             );
-            res.status(200).send({ success: true, message: "Usuario modificado con exito" });   
+            
+            if(result[0]===0){
+                throw new Error("No se encontró el usuario");
+            } else {
+                res.status(200).send({ success: true, message: "Usuario modificado con exito" });   
+            }
+
+
         } catch (error) {
             res.status(400).send({ success: false, message: error });
         }
@@ -116,12 +112,7 @@ class UserController {
         }
     }
 
-    /**
-     * Este endpoint es solo para administradores, por lo que
-     * el findAll incluirá el scope "sudo"
-     */
     getAllAdministrators = async (req, res) => {
-        // Validar administrador
         try {
             const result = await User.scope("sudo").findAll({
                 include: {
@@ -138,6 +129,47 @@ class UserController {
             res.status(200).send({success: true, message: result});
         } catch (error) {
             res.status(400).send({success: false, message: error});
+        }
+    }
+
+    login = async (req, res) => {
+        try {
+            const { email, password } = req.body;
+            
+            if(email===undefined || password === undefined){
+                throw new Error("Debe ingresar las credenciales");
+            }
+
+            const data = await User.scope("forLogin").findOne({
+                where: {
+                    email
+                }
+            });
+            if(!data) throw new Error("Credenciales inválidas");
+
+            const comparePass = await data.comparePass(password);
+
+            if(!comparePass) throw new Error("Credenciales inválidas");
+
+            const payload = {
+                id: data.id,
+                first_name: data.first_name
+            };
+            const token = genToken(payload);
+
+            res.cookie("token", token);
+            res.status(200).send({success: true, message: "Bienvenido, " + data.first_name});
+        } catch (error) {
+            res.status(400).send({success: false, message: error.message});
+        }
+    }
+
+    me = async (req, res) => {
+        try {
+            const { user } = req;
+            res.status(200).send({ success: true, message: user});
+        } catch(error) {
+            res.status(400).send({success: false, message: error.message});
         }
     }
 }

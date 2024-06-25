@@ -1,9 +1,42 @@
 import { DataTypes, Model } from "sequelize";
+import Role from "./Role.js";
 import connection from "../connection/connection.js";
+import bcrypt from "bcrypt";
 
 class User extends Model {
 
-}
+    comparePass = async (password) => {
+        const compare = await bcrypt.compare(password, this.password);
+        return compare;
+    };
+
+    static isAdministrator = async (userId) => {
+        const user = await User.findOne({
+            where: {
+                id: userId
+            },
+            include: {
+                model: Role,
+                attributes: ["admin"]
+            }
+        })
+        return user.Role.admin;
+    }
+
+    static isSudo = async (userId) => {
+        const user = await User.findOne({
+            where: {
+                id: userId
+            },
+            include: {
+                model: Role,
+                attributes: ["sudo"]
+            }
+        })
+        return user.Role.sudo;
+    }
+
+};
 
 User.init(
     {
@@ -73,9 +106,20 @@ User.init(
                 attributes: {
                     exclude: []
                 }
+            },
+            forLogin: {
+                attributes: {
+                    include: ["password"]
+                }
             }
         }
     }
 );
+
+User.beforeCreate(async (user) => {
+    const genSalt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(user.password, genSalt);
+    user.password = hashedPassword;
+});
 
 export default User;

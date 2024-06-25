@@ -38,4 +38,6 @@ class PriceController {
     }
 }
 
+// por id update delete insert guiarse por user el orden
+
 export default PriceController;

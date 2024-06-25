@@ -12,6 +12,7 @@ app.use(morgan("tiny"));
 app.use(cookieParser());
 app.use(routes);
 
+
 // await connection.sync({
 //     force: true
 // });

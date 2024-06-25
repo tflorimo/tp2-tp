@@ -68,3 +68,8 @@ Todos los modelos deben tener underscored: true (para seguir una convención de 
 - stock_qty # En el depósito
 - total_qty # Stock real (total)
 - restock_qty # Límite en el que se debe solicitar restock
+
+## Falta
+
+### GET `/product`
+### GET `/product/:id`

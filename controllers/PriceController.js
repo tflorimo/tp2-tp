@@ -28,12 +28,30 @@ class PriceController {
 
             const valorDolar = await dolarService.getCurrentDolarPrice("blue");
             const resultData = result.toJSON();
-            resultData.precioEnDolares = resultData.price * valorDolar;
-            console.log(resultData);
-
+            resultData.precioEnDolares = parseFloat((resultData.price / valorDolar).toFixed(2));
             res.status(200).send({success: true, message: resultData});
         } catch {
             res.status(400).send({success: false, message: error});
+        }
+    }
+
+    createPrice = async (req, res) => {
+        try {
+            const { product_id, price, profit_percentage } = req.body;
+            const result = await Price.create({
+                product_id,
+                price,
+                profit_percentage
+            });
+            res.status(201).send({
+                sucess: true,
+                message: 'Precio creado con éxito!'
+            })
+        } catch (error){
+            res.status(400).send({
+                success: false,
+                message: error
+            })
         }
     }
 }

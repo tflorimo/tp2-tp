@@ -8,13 +8,44 @@ class StockController {
      * si salta el limite, enviar aviso
      */
 
-    reestockear = async (req, res) => {
+    restockProduct = async (req, res) => {
         try {
-            const result = await Stock.findOne({
 
-            });
-        } catch(error) {
+            const { product_id } = req.params;
+            const {quantity} = req.body;
+
+            if(quantity === undefined) throw new Error("Debe indicar una cantidad a reestockear");
             
+            const result = await Stock.findOne({
+                where: {
+                    product_id
+                }
+            });
+
+            const resultData = result.toJSON();
+            
+            if(resultData.stock_qty >= quantity){
+                var newStockQty = resultData.stock_qty - quantity
+                var newInventoryQty = resultData.inventory_qty + parseInt(quantity);
+
+                const update = await Stock.update({
+                    stock_qty: newStockQty,
+                    inventory_qty: newInventoryQty
+                },
+                    {
+                        where: {
+                            product_id,
+                        },
+                    }
+                );
+                res.status(200).send({success: true, message: "Reestock realizado con éxito"});
+            } else {
+                throw new Error("No hay suficiente cantidad para restockear");
+            }
+
+        } catch(error) {
+            console.log(error);
+            res.status(400).send({ success: false, message: error });
         }
     }
 

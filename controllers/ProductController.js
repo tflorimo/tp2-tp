@@ -39,11 +39,10 @@ class ProductController {
                 var debeRestockear = false;
                 debeRestockear = inventory_qty <= stock.restock_qty;
 
-                /**
-                 * Funcion de reestockear
-                 * Concatena un mensaje al message de la response si debe restockear
-                 * if debeRestockear
-                 */
+
+                if(debeRestockear){
+                    return res.status(200).send({success:true, message:"Venta realizada con exito. ARS: " + priceData.price + " | USD: " + priceData.precioDolar} + " | Debe reestockar este producto.");
+                }
 
                 // if(inventory_qty==0){
                 //     Lo mismo que arriba, debe enviar/concatenar algun mensaje

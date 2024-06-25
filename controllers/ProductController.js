@@ -20,7 +20,7 @@ class ProductController {
             if(quantity===undefined) quantity = 1;
 
             if(stockData.inventory_qty>0){
-                const inventory_qty = stockData.inventory_qty - quantity;
+                var inventory_qty = stockData.inventory_qty - parseInt(quantity);
                 
                 if(inventory_qty<0) inventory_qty = 0;
 

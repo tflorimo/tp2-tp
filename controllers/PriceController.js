@@ -12,6 +12,21 @@ class PriceController {
         }
     }
 
+    getPriceById = async (req, res) => {
+        try {
+            const { id } = req.params;
+            const result = await Price.findByPk(id,{
+                include: {
+                    model: Product,
+                    attributes: ["name"]
+                }
+            });
+            res.status(200).send({success: true, message: result});
+        } catch (error) {
+            res.status(400).send({success: false, message: error});
+        }
+    }
+
     checkProductPrice = async (req, res) => {
         try {
             const {product_id} = req.params;
@@ -52,6 +67,60 @@ class PriceController {
                 success: false,
                 message: error
             })
+        }
+    }
+
+
+    updatePrice = async (req, res) => {
+        try {
+            const { id } = req.params;
+            const {product_id, price, profit_percentage} = req.body;
+
+            /**
+             * @see "Role.js - updateRole"
+             */
+
+            const campos = {};
+
+            if(product_id !== undefined) campos.product_id = product_id;
+            if(price !== price) campos.price = price;
+            if(profit_percentage !== profit_percentage) campos.profit_percentage = profit_percentage;
+        
+            if(Object.keys(campos).length === 0){
+                throw new Error("No se enviaron datos para actualizar");
+            }
+
+            const result = await Price.update(campos,
+                {
+                    where: {
+                        id,
+                    },
+                }
+            );
+            
+            if(result[0]===0){
+                throw new Error("No se encontró el Precio");
+            } else {
+                res.status(200).send({ success: true, message: "Precio modificado con exito" });   
+            }
+
+
+        } catch (error) {
+            res.status(400).send({ success: false, message: error });
+        }
+    } 
+    
+    deletePrice = async (req, res) => {
+        try {
+            const { id } = req.params;
+            const result = await Price.destroy({
+                where: {
+                    id,
+                }
+            });
+            res.status(200).send({success: true, message: "Precio eliminado con éxito"});
+        } catch (error) {
+            res.status(400).send({success: false, message: error});
         }
     }
 }

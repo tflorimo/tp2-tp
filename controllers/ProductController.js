@@ -40,9 +40,9 @@ class ProductController {
                 debeRestockear = inventory_qty <= stock.restock_qty;
 
 
-                if(debeRestockear){
-                    return res.status(200).send({success:true, message:"Venta realizada con exito. ARS: " + priceData.price + " | USD: " + priceData.precioDolar} + " | Debe reestockar este producto.");
-                }
+                // if(debeRestockear){
+                    // cannot set headers after they're sent to the client
+                // }
 
                 // if(inventory_qty==0){
                 //     Lo mismo que arriba, debe enviar/concatenar algun mensaje

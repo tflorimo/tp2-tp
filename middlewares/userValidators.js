@@ -60,7 +60,7 @@ export const validateSudo = async (req, res, next) => {
 }
 
 export const validateAdminSudo = async (req, res, next) => {
-    if(validateAdmin(req, res, () => {})) || (validateSudo(req, res, () => {})){
+    if (validateAdmin(req, res, () => {}) || validateSudo(req, res, () => {})) {
         next();
     } else {
         res.status(401).send({sucess:false, message: "No autorizado"});

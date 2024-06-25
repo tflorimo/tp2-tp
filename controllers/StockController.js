@@ -8,6 +8,16 @@ class StockController {
      * si salta el limite, enviar aviso
      */
 
+    reestockear = async (req, res) => {
+        try {
+            const result = await Stock.findOne({
+
+            });
+        } catch(error) {
+            
+        }
+    }
+
     getAllStocks = async (req, res) => {
         try {
             const result = await Stock.findAll({});
@@ -62,10 +72,10 @@ class StockController {
             const campos = {};
 
             if(product_id !== undefined) campos.product_id = product_id;
-            if(inventory_qty !== inventory_qty) campos.inventory_qty = inventory_qty;
-            if(stock_qty !== stock_qty) campos.stock_qty = stock_qty;
-            if(total_qty !== total_qty) campos.total_qty = total_qty;
-            if(restock_qty !== restock_qty) campos.restock_qty = restock_qty;
+            if(inventory_qty !== undefined) campos.inventory_qty = inventory_qty;
+            if(stock_qty !== undefined) campos.stock_qty = stock_qty;
+            if(total_qty !== undefined) campos.total_qty = total_qty;
+            if(restock_qty !== undefined) campos.restock_qty = restock_qty;
         
             if(Object.keys(campos).length === 0){
                 throw new Error("No se enviaron datos para actualizar");

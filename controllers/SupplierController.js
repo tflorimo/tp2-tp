@@ -53,8 +53,8 @@ class SupplierController {
             const campos = {};
 
             if(name !== undefined) campos.name = name;
-            if(address !== address) campos.address = address;
-            if(is_active !== is_active) campos.is_active = is_active;
+            if(address !== undefined) campos.address = address;
+            if(is_active !== undefined) campos.is_active = is_active;
         
             if(Object.keys(campos).length === 0){
                 throw new Error("No se enviaron datos para actualizar");

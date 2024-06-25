@@ -30,9 +30,14 @@ bash
 git checkout -b tomasf/tomasr/agus/ruben
 
 De esta manera, hacemos commits en un branch propio y al finalizar los merge se hacen contra MAIN (que no debe tocarse).
+
 🛠️ Modelos
 
-Todos los modelos deben tener underscored: true (para seguir una convención de nombres de columnas) y timestamps: true para que se creen columnas de createdAt y deletedAt.
+Todos los modelos deben tener: 
+underscored: true (para seguir una convención de nombres de columnas)
+timestamps: true (para que se creen columnas de createdAt y updatedAt)
+paranoid: true (para que se haga soft-delete)
+
 👤 User
 
     id - PRIMARY KEY
@@ -85,11 +90,6 @@ Todos los modelos deben tener underscored: true (para seguir una convención de 
     stock_qty # En el depósito
     total_qty # Stock real (total)
     restock_qty # Límite en el que se debe solicitar restock
-
-🚨 Falta
-
-    GET /product
-    GET /product/
 
 🙏 Agradecimientos
 

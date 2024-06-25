@@ -10,6 +10,6 @@ ProductRoutes.get("/:id", productController.getProductById);
 ProductRoutes.post("/", productController.createProduct);
 ProductRoutes.post("/:id", productController.buyProduct);
 
-// ProductRoutes.put("/:id", productController.updateProduct);
+ProductRoutes.put("/:id", productController.updateProduct);
 
 export default ProductRoutes;

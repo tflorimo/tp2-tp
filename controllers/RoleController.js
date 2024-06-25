@@ -75,8 +75,6 @@ class RoleController {
             if(admin !== undefined) campos.admin = admin;
             if(sudo !== undefined) campos.sudo = sudo;
 
-            console.log("update");
-
             const result = await Role.update(campos,
                 {
                     where: {

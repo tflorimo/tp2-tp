@@ -1,8 +1,6 @@
 import { Router } from "express";
 import UserController from "../controllers/UserController.js";
-import { validateLogin } from "../middlewares/validateLogin.js";
-import { validateAdmin } from "../middlewares/validateAdmin.js";
-import { validateSudo } from "../middlewares/validateSudo.js";
+import { validateAdminSudo, validateAdmin, validateLogin, validateSudo } from "../middlewares/userValidators.js";
 
 const userController = new UserController();
 const UserRoutes = Router();
@@ -12,11 +10,11 @@ UserRoutes.get("/", validateSudo, userController.getAllUsers);
 UserRoutes.get("/admins", validateSudo, userController.getAllAdministrators);
 UserRoutes.get("/:id", validateAdmin, userController.getUserById);
 
-UserRoutes.post("/", validateAdmin, validateSudo, userController.createUser);
+UserRoutes.post("/", validateAdminSudo, userController.createUser);
 UserRoutes.post("/login", userController.login);
 
-UserRoutes.put("/:id", validateAdmin, validateSudo, userController.updateUser);
+UserRoutes.put("/:id", validateAdminSudo, userController.updateUser);
 
-UserRoutes.delete("/:id", validateAdmin, validateSudo, userController.deleteUser);
+UserRoutes.delete("/:id", validateSudo, userController.deleteUser);
 
 export default UserRoutes;
